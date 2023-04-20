@@ -27,7 +27,9 @@
   ],
   "contributes": {},
   "dependencies": {
-    "@vitest/ui": "^0.26.2"
+    "@vitest/ui": "^0.26.2",
+    "vis-data": "^7.1.6",
+    "vis-network": "^9.1.6"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",

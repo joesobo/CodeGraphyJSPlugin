@@ -1,23 +1,31 @@
 import * as vscode from 'vscode'
 
-type Node = {
-  id: string
-  name: string
-}
+import type { File } from './utils/types'
+
+import { getConnections } from './utils/file/getConnections'
 
 export interface Data {
-  message: Node[]
+  message: File[]
 }
 
 export const activate = async (context: vscode.ExtensionContext) => {
 	console.log('CodeGraphy - JS Plugin activated!')
 
-	const data: Data = await vscode.commands.executeCommand('codegraphy.getData')
+	const data: Data = await vscode.commands.executeCommand(
+		'codegraphy.getSystemFiles',
+	)
 	if (data) {
+		const files = data.message
+
+		const { nodes, edges } = getConnections(files)
+
 		const result = {
-			nodes: data.message,
-			connections: [{ from: data.message[0].id, to: data.message[1].id }],
+			nodes,
+			edges,
 		}
-		await vscode.commands.executeCommand('codegraphy.printData', result)
+		await vscode.commands.executeCommand(
+			'codegraphy.sendPluginConnections',
+			result,
+		)
 	}
 }
