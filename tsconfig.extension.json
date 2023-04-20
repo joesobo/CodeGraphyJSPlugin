@@ -11,5 +11,5 @@
     "outDir": "dist",
     "moduleResolution": "node"
   },
-  "include": ["src/extension.ts", "src/BaseViewProvider.ts"]
+  "include": ["src/extension.ts", "src/index.ts"]
 }

@@ -1,9 +1,23 @@
 import * as vscode from 'vscode'
-import { BaseViewProvider } from './BaseViewProvider'
 
-export function activate(context: vscode.ExtensionContext) {
-	const provider = new BaseViewProvider(context.extensionUri)
+type Node = {
+  id: string
+  name: string
+}
 
-	context.subscriptions.push(
-		vscode.window.registerWebviewViewProvider(BaseViewProvider.viewType, provider))
+export interface Data {
+  message: Node[]
+}
+
+export const activate = async (context: vscode.ExtensionContext) => {
+	console.log('CodeGraphy - JS Plugin activated!')
+
+	const data: Data = await vscode.commands.executeCommand('codegraphy.getData')
+	if (data) {
+		const result = {
+			nodes: data.message,
+			connections: [{ from: data.message[0].id, to: data.message[1].id }],
+		}
+		await vscode.commands.executeCommand('codegraphy.printData', result)
+	}
 }
