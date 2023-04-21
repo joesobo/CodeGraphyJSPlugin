@@ -1,50 +1,45 @@
 {
+  "publisher": "codegraphy",
   "name": "codegraphy-js-plugin",
   "displayName": "CodeGraphy JS Plugin",
-  "description": "",
   "version": "0.0.1",
-  "engines": {
-    "vscode": "^1.69.0"
-  },
-  "publisher": "codegraphy",
+  "description": "",
   "categories": [
     "Other"
   ],
   "main": "./dist/extension.js",
-  "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "concurrently \"tsc -p ./tsconfig.extension.json --skipLibCheck\" \"vite build\"",
-    "watch": "concurrently \"tsc -w -p ./tsconfig.extension.json --skipLibCheck\" \"vite build --watch\"",
-    "lint": "eslint \"src/**/*.ts\"",
-    "prettier": "prettier --write .",
-    "format": "pnpm run prettier && pnpm run lint --fix",
-    "typecheck": "tsc --noEmit --skipLibCheck",
-    "test": "vitest --passWithNoTests",
-    "test:ui": "vitest --ui"
+  "engines": {
+    "vscode": "^1.69.0"
   },
   "activationEvents": [
     "*"
   ],
   "contributes": {},
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "concurrently \"tsc -p ./tsconfig.extension.json --skipLibCheck\" \"vite build\"",
+    "watch": "concurrently \"tsc -w -p ./tsconfig.extension.json --skipLibCheck\" \"vite build --watch\"",
+    "lint": "eslint .",
+    "format": "eslint . --fix",
+    "typecheck": "tsc --noEmit --skipLibCheck",
+    "test": "vitest --passWithNoTests",
+    "test:ui": "vitest --ui"
+  },
   "dependencies": {
     "@vitest/ui": "^0.26.2",
     "vis-data": "^7.1.6",
     "vis-network": "^9.1.6"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^0.38.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/user-event": "^14.4.3",
     "@types/jest": "^29.2.4",
     "@types/node": "^18.11.17",
     "@types/vscode": "^1.73.0",
-    "@typescript-eslint/eslint-plugin": "^5.42.0",
-    "@typescript-eslint/parser": "^5.42.0",
     "concurrently": "^7.6.0",
     "eslint": "^8.30.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-import": "^2.27.5",
     "jsdom": "^20.0.3",
-    "prettier": "^2.8.7",
     "typescript": "^4.8.4",
     "vite": "^2.9.14",
     "vitest": "^0.26.2"

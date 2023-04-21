@@ -7,20 +7,20 @@ interface VitestConfigExport extends UserConfig {
 }
 
 module.exports = defineConfig({
-  plugins: [],
-  build: {
-    lib: {
-      entry: './src/index.ts',
-      formats: ['es', 'cjs'],
-      fileName: (format) => `index.${format}.js`,
-    },
-    emptyOutDir: false,
-    outDir: 'dist/compiled',
-  },
-  test: {
-    globals: true,
-    include: ['**/*.spec.ts'],
-    setupFiles: ['./setupTests.ts'],
-    environment: 'jsdom',
-  },
+	plugins: [],
+	build: {
+		lib: {
+			entry: './src/index.ts',
+			formats: ['es', 'cjs'],
+			fileName: format => `index.${format}.js`,
+		},
+		emptyOutDir: false,
+		outDir: 'dist/compiled',
+	},
+	test: {
+		globals: true,
+		include: ['**/*.spec.ts'],
+		setupFiles: ['./setupTests.ts'],
+		environment: 'jsdom',
+	},
 } as VitestConfigExport)

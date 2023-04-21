@@ -1,10 +1,8 @@
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 
-export const findNearestNodeModules = (
-	directory: string,
-	importPath: string,
-) => {
+export const findNearestNodeModules = (directory: string,
+	importPath: string) => {
 	let result = ''
 	let found = false
 
@@ -21,7 +19,6 @@ export const findNearestNodeModules = (
 				if (isValidDirectory(packagePath)) {
 					result = packagePath
 					found = true
-					return
 				}
 			}
 		})

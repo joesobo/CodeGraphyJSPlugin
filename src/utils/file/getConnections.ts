@@ -1,6 +1,5 @@
+import fs from 'node:fs'
 import type { Edge, File, Node } from '../types'
-
-import fs from 'fs'
 
 import { findNearestNodeModules } from './getNodeModules'
 
@@ -20,11 +19,18 @@ export const getConnections = (files: File[]) => {
 	files.forEach((file, fileIndex) => {
 		const fileContents = fs.readFileSync(file.path, 'utf-8')
 
-		const importRegex =
-      /(?:import\s+(?:\*+\s+as\s+[\w*]+|(?:type\s+(?:(?:[\w*]+\s*,\s*)?\{[^{}]*\})+|(?:(?:[\w*]+\s*,\s*)?\{[^{}]*\}|[\w*]+)))\s*from\s*['"]([^'"]+)['"]|require\s*\(\s*['"]([^'"]+)['"]\s*\)|.*CodeGraphy\s+connect:\s+(['"])([^'"]+)\3)/g
+		const importRegex
+      = /(?:import\s+(?:\*+\s+as\s+[\w*]+|(?:type\s+(?:(?:[\w*]+\s*,\s*)?\{[^{}]*\})+|(?:(?:[\w*]+\s*,\s*)?\{[^{}]*\}|[\w*]+)))\s*from\s*['"]([^'"]+)['"]|require\s*\(\s*['"]([^'"]+)['"]\s*\)|.*CodeGraphy\s+connect:\s+(['"])([^'"]+)\3)/g
 
 		let match
-		while ((match = importRegex.exec(fileContents)) !== null) {
+
+		do {
+			match = importRegex.exec(fileContents)
+
+			if (match === null) {
+				break
+			}
+
 			// If it's an import statement, the path is captured in the second group.
 			// If it's a require statement, the path is captured in the third group.
 			// If it's a custom "CodeGraphy connect" comment, the path is captured in the fourth group.
@@ -44,19 +50,18 @@ export const getConnections = (files: File[]) => {
 
 			// If the connection already exists or no connection found, skip it
 			if (
-				connectionIndex === -1 ||
-        edges.find(
-        	(connection) => connection.id === `${fileIndex}-${connectionIndex}`,
+				connectionIndex === -1
+        || edges.find(
+        	connection => connection.id === `${fileIndex}-${connectionIndex}`,
         )
-			)
-				continue
+			) { continue }
 
 			edges.push({
-				id: fileIndex + '-' + connectionIndex,
+				id: `${fileIndex}-${connectionIndex}`,
 				to: fileIndex,
 				from: connectionIndex,
 			})
-		}
+		} while (match !== null)
 	})
 
 	return { nodes, edges }
@@ -76,9 +81,8 @@ const getFullPath = (filePath: string, importPath: string) => {
 		importPathArr.forEach((element) => {
 			if (element === '.' || element === '..') {
 				directory.pop()
-			} else {
-				directory.push(element)
 			}
+			else { directory.push(element) }
 		})
 		return `/${directory.join('/')}`
 	}

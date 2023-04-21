@@ -1,7 +1,6 @@
 import * as vscode from 'vscode'
 
 import type { File } from './utils/types'
-
 import { getConnections } from './utils/file/getConnections'
 
 export interface Data {
@@ -9,6 +8,7 @@ export interface Data {
 }
 
 export const activate = async (context: vscode.ExtensionContext) => {
+	// eslint-disable-next-line no-console -- For Testing Purposes
 	console.log('CodeGraphy - JS Plugin activated!')
 
 	const data: Data = await vscode.commands.executeCommand(

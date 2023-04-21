@@ -1,4 +1,4 @@
-import { EdgeOptions, NodeOptions } from 'vis-network/standalone'
+import type { EdgeOptions, NodeOptions } from 'vis-network/standalone'
 
 export interface Node extends NodeOptions {
   id: number
