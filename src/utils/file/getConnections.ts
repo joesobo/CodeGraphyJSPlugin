@@ -1,7 +1,6 @@
 import fs from 'node:fs'
 import type { Edge, File, Node } from '../types'
-
-import { findNearestNodeModules } from './getNodeModules'
+import { findNearestNodeModules, isNodeModule } from './getNodeModules'
 
 export const getConnections = (files: File[]) => {
 	const nodes: Node[] = []
@@ -37,7 +36,7 @@ export const getConnections = (files: File[]) => {
 			const importPath = match[1] || match[2] || match[4]
 			const fullPath = getFullPath(file.path, importPath)
 
-			if (fullPath.includes('node_modules')) {
+			if (isNodeModule(fullPath, nodes)) {
 				nodes.push({
 					id: nodes.length,
 					label: fullPath.split('/').pop() || '',

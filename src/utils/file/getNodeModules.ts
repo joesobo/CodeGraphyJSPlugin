@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import type { Node } from '../types'
 
 export const findNearestNodeModules = (directory: string,
 	importPath: string) => {
@@ -35,4 +36,8 @@ const isValidDirectory = (path: string) => {
 		return stats.isDirectory()
 	}
 	return false
+}
+
+export const isNodeModule = (path: string, nodes: Node[]) => {
+	return (path.includes('node_modules') && !nodes.find(node => node.path === path))
 }
